@@ -1,3 +1,6 @@
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+
 const sendOtpToEmail = async (email) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
     const expirationTime = Date.now() + 5 * 60 * 1000; 
@@ -33,12 +36,10 @@ const sendOtpToEmail = async (email) => {
 const otpStore = new Map(); 
 
 async function sendOtp(req, res) {
-    const { email } = req.body;
+   
+    const {email} = req.body
 
-    if (!email) {
-        return res.status(400).json({ status: 'error', message: 'Email is required' });
-    }
-
+    console.log("email received :", email);
     try {
         const { otp, expirationTime } = await sendOtpToEmail(email);
 
@@ -82,3 +83,7 @@ const verifyOtp = (req, res) => {
     return res.status(200).json({ status: 'success', message: 'OTP verified successfully' });
 };
 
+module.exports = {
+    sendOtp,
+    verifyOtp
+}

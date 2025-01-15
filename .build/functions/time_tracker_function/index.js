@@ -3,6 +3,7 @@
 const express = require('express');
 const timeEntryRoutes = require('./routes/timeEntry');
 const userRoutes = require('./routes/user');
+const adminRoutes = require('./routes/admin')
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 
 app.use('/user', userRoutes);          
 app.use('/timeEntry', timeEntryRoutes);
+app.use('/admin',adminRoutes)
 
 app.use((err, req, res, next) => {
     console.error('Error:', err);
