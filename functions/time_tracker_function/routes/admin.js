@@ -1,9 +1,10 @@
 const express = require('express');
-const {handleForgotPassword} = require('../controllers/admin');
+const {handleForgotPassword, handleVerifyOTP} = require('../controllers/admin');
 
 const router =  express.Router();
 
 router.post('/forgotPassword', handleForgotPassword);
+router.post('/verifyOTP',handleVerifyOTP);
 
-module.exports = router
+module.exports = router;
 

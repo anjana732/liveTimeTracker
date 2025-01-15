@@ -17,7 +17,7 @@ function findUserByEmail(catalystApp, email) {
         
         catalystApp.zcql().executeZCQLQuery(query)
             .then(queryResponse => {
-                console.log('Find user response:', queryResponse);touch 
+                console.log('Find user response:', queryResponse);
                 resolve(queryResponse);
             })
             .catch(err => {
