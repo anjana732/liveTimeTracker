@@ -1,3 +1,6 @@
+const crypto = require('crypto');
+const bcrypt = require('bcrypt')
+
 const hashPassword = async (password) => {
     try {
       const saltRounds = 10; 
@@ -10,4 +13,6 @@ const hashPassword = async (password) => {
     }
   };
 
-  
+  module.exports = {
+    hashPassword
+  }
