@@ -58,15 +58,15 @@ const verifyOtp = (req, res) => {
     console.log('Incoming request:', { email, otp });
 
     if (!otpStore.has(email)) {
-        console.log(`Email not found in otpStore. Available keys: ${Array.from(otpStore.keys()).join(', ')}`);
+        // console.log(`Email not found in otpStore. Available keys: ${Array.from(otpStore.keys()).join(', ')}`);
         return res.status(400).json({ status: 'error', message: 'Invalid email' });
     }
 
     const { otp: storedOtp, expirationTime } = otpStore.get(email);
 
-    console.log(`Received OTP: "${otp}", Stored OTP: "${storedOtp}"`);
-    console.log(`Received OTP Type: ${typeof otp}, Stored OTP Type: ${typeof storedOtp}`);
-    console.log(`Expiration Time: ${expirationTime}, Current Time: ${Date.now()}`);
+    // console.log(`Received OTP: "${otp}", Stored OTP: "${storedOtp}"`);
+    // console.log(`Received OTP Type: ${typeof otp}, Stored OTP Type: ${typeof storedOtp}`);
+    // console.log(`Expiration Time: ${expirationTime}, Current Time: ${Date.now()}`);
 
     if (otp.toString().trim() !== storedOtp.toString().trim()) {
         console.log('OTP mismatch detected.');
