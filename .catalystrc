@@ -1,0 +1,30 @@
+{
+  "defaults": {
+    "project": 1,
+    "env": 1
+  },
+  "actives": {
+    "project": 1,
+    "env": 1
+  },
+  "projects": [
+    {
+      "idx": 1,
+      "id": "1380000001130014",
+      "name": "timeTracker",
+      "domain": {
+        "id": "10093593886",
+        "name": "timetracker-771555683.development"
+      },
+      "timezone": "Asia/Kolkata",
+      "env": [
+        {
+          "idx": 1,
+          "id": "771555683",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    }
+  ]
+}
