@@ -3,7 +3,7 @@ const { handleUserSignup, handleGetUser, handleUserLogin, verifyOtp  } = require
 
 const router = express.Router();
 
-// User routes
+
 router.post('/signup', handleUserSignup);
 router.post('/login', handleUserLogin);
 router.get('/', handleGetUser);
