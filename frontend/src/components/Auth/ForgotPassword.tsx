@@ -60,6 +60,7 @@ export function ForgotPassword() {
         alert(data.message || `OTP validated successfully! ${email}`);
         setNotificationMessage('OTP validated successfully!');
         setShowNotification(true);
+        console.log("Email Received in forgot Password: ", email);
         navigate('/PasswordReset', { state: { email } }); 
 
       } else {

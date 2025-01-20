@@ -1,14 +1,14 @@
 
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface PasswordResetProps {
     email: String
   }
   
 
-export function PasswordReset({email}: PasswordResetProps) {
+export function PasswordReset() {
 
 
   const [newPassword, setNewPassword] = useState('');
@@ -17,6 +17,9 @@ export function PasswordReset({email}: PasswordResetProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); 
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false); 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const email = location.state?.email;
 
   const passwordCriteria = [
     { label: 'At least 8 characters', test: (password: string) => password.length >= 8 },

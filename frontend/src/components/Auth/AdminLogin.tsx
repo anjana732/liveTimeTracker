@@ -2,6 +2,11 @@ import React from "react";
 import { Link } from 'react-router-dom';
 export function AdminLogin(){
 
+
+  async function handleSubmit() {
+    
+  }
+
     return (
         <section className="h-screen bg-gray-200">
           <div className="container mx-auto py-5 h-full flex justify-center items-center">
@@ -51,6 +56,7 @@ export function AdminLogin(){
                       <button
                         type="button"
                         className="w-full py-2 mb-3 text-white bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 rounded-md shadow-lg hover:shadow-xl transition duration-300"
+                        onClick={handleSubmit}
                       >
                         Log in
                       </button>

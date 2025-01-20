@@ -248,6 +248,5 @@ module.exports = {
     handleAdminLogin,
     handleForgotPassword,
     handleVerifyOTP,
-    handleAdminLogin,
     handleResetPassword
 }
