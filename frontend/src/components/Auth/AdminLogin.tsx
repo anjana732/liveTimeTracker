@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuthStore, User } from '../../store/authStore';
 export function AdminLogin(){
 
 
@@ -8,6 +9,9 @@ export function AdminLogin(){
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isAdmin, setIsAdmin] = useState(true);
+  const login = useAuthStore((state) => state.login);
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     console.log("Inside handleSubmit")
@@ -16,31 +20,93 @@ export function AdminLogin(){
     setError('');
     setIsLoading(true);
 
-    try {
-      const response = await fetch('/server/time_tracker_function/admin/adminLogin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          email,
-          password 
-        }),
-      });
+    // try {
+    //   const response = await fetch('/server/time_tracker_function/admin/adminLogin', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ 
+    //       email,
+    //       password 
+    //     }),
+    //   });
       
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Signup failed');
-      }
+    //   if (!response.ok) {
+    //     const errorData = await response.json();
+    //     throw new Error(errorData.message || 'Signup failed');
+    //   }
 
-      navigate('/admin'); 
-      // onBackToLogin(); 
-    } catch (error) {
-      console.error('Signup error:', error);
-      setError(error instanceof Error ? error.message : 'Signup failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+    //   navigate('/admin'); 
+    
+          
+          try {
+            const response = await fetch('/server/time_tracker_function/admin/adminLogin', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify({ 
+                email,
+                password 
+              }),
+            });
+      
+            console.log('Request URL:', response.url);
+            console.log('Response status:', response.status);
+            
+            if (!response.ok) {
+              const errorText = await response.text();
+              console.log('Error response:', errorText);
+              
+              try {
+                const errorData = JSON.parse(errorText);
+                throw new Error(errorData.message || errorData.data?.message || 'Login failed');
+              } catch (e) {
+                throw new Error('Login failed - server error');
+              }
+            }
+      
+            const data = await response.json();
+            console.log('Response data:', data);
+      
+            if (!data || !data.data) {
+              throw new Error('Invalid response format');
+            }
+      
+            const userData = data.data;
+      
+            const user: User = {
+              id: userData.ROWID,
+              userName: userData.userName,
+              email: userData.email,
+              name: userData.userName,
+              // role: email.includes('admin') ? 'admin' : 'intern'
+              role: isAdmin ? 'admin' : 'intern'
+            };
+            
+            login(user);
+            
+         
+            if (user.role === 'admin') {
+              navigate('/admin');
+            } else {
+              navigate('/dashboard');
+            }
+      
+          } catch (error) {
+            console.error('Login error:', error);
+            setError(error instanceof Error ? error.message : 'Login failed. Please try again.');
+          }
+      
+
+    // } catch (error) {
+    //   console.error('Signup error:', error);
+    //   setError(error instanceof Error ? error.message : 'Signup failed. Please try again.');
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
 

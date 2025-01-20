@@ -11,6 +11,7 @@ export function LoginForm({ onSwitchToSignUp }: LoginFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
 
@@ -60,7 +61,8 @@ export function LoginForm({ onSwitchToSignUp }: LoginFormProps) {
         userName: userData.userName,
         email: userData.email,
         name: userData.userName,
-        role: email.includes('admin') ? 'admin' : 'intern'
+        // role: email.includes('admin') ? 'admin' : 'intern'
+        role: isAdmin ? 'admin' : 'intern'
       };
       
       login(user);
@@ -80,6 +82,7 @@ export function LoginForm({ onSwitchToSignUp }: LoginFormProps) {
   };
 
   const handleAdminLogin = () => {
+    setIsAdmin(true);
     navigate('/AdminLogin')
   }
 
