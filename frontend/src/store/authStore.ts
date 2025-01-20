@@ -14,7 +14,7 @@ interface AuthState {
     logout: () => void;
 }
 
-// Rename useAuth to useAuthStore for consistency
+
 export const useAuthStore = create<AuthState>((set) => ({
     user: null,
     login: (user: User) => set({ user }),

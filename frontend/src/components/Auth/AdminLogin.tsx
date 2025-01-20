@@ -1,11 +1,48 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import React, {useState} from "react";
+import { Link, useNavigate } from 'react-router-dom';
 export function AdminLogin(){
 
 
-  async function handleSubmit() {
-    
-  }
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    console.log("Inside handleSubmit")
+
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/server/time_tracker_function/admin/adminLogin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          email,
+          password 
+        }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Signup failed');
+      }
+
+      navigate('/admin'); 
+      // onBackToLogin(); 
+    } catch (error) {
+      console.error('Signup error:', error);
+      setError(error instanceof Error ? error.message : 'Signup failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
     return (
         <section className="h-screen bg-gray-200">
@@ -23,7 +60,7 @@ export function AdminLogin(){
                       We are The Fristine Team
                     </h4>
                   </div>
-                  <form>
+                  <form >
                     <p className="mb-4 text-gray-600">Please login to your account</p>
                     <div className="mb-4">
                       <label
@@ -37,6 +74,7 @@ export function AdminLogin(){
                         id="username"
                         className="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         placeholder="Phone number or email address"
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                     <div className="mb-4">
@@ -50,13 +88,14 @@ export function AdminLogin(){
                         type="password"
                         id="password"
                         className="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
                     <div className="text-center">
                       <button
                         type="button"
                         className="w-full py-2 mb-3 text-white bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 rounded-md shadow-lg hover:shadow-xl transition duration-300"
-                        onClick={handleSubmit}
+                       onClick={handleSubmit}
                       >
                         Log in
                       </button>

@@ -77,7 +77,7 @@ export function PasswordReset() {
           </h2>
         </div>
         <p className="text-gray-600 text-center mt-4">Reset your password</p>
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+        <form onSubmit={handleSubmit}  className="mt-6 space-y-4">
           {/* New Password Field */}
           <div className="relative">
             <label htmlFor="new-password" className="block text-sm font-medium text-gray-600">
