@@ -2,7 +2,7 @@ const catalyst = require('zcatalyst-sdk-node');
 const {sendErrorResponse} = require('../utils/error')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer');
-const crypto = require('crypto');
+// const crypto = require('crypto');
 
 
 const ADMIN_EMAIL = 'admin@timetracker.com';

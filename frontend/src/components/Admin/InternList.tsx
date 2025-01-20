@@ -191,11 +191,15 @@ export function InternList() {
       {/* Header and Filters */}
       <div className="bg-white shadow-md rounded-lg mb-6">
         <div className="p-6 border-b">
+          <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold flex items-center mb-6">
             <Users className="w-8 h-8 mr-2 text-primary-600" />
             Employee Time Tracking
           </h1>
-
+          <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none">
+      Export to Sheet
+    </button>
+    </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search Input */}
             <div className="relative">
