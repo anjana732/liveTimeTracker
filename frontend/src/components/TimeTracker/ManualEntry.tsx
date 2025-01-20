@@ -55,7 +55,6 @@ export function ManualEntry() {
     }
   };
 
-  // Get items for the selected training type
   const getItems = (type: string) => {
     return dropdownData[type] || {};
   };
@@ -82,7 +81,7 @@ export function ManualEntry() {
 
   const { addManualEntry } = useTimeEntryStore();
 
-  // Calculate date restrictions
+  
   const today = new Date();
   const minDate = format(subDays(today, 7), 'yyyy-MM-dd');
   const maxDate = format(today, 'yyyy-MM-dd');
@@ -120,8 +119,6 @@ export function ManualEntry() {
   
   };
 
- 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user?.email) return;
@@ -130,30 +127,16 @@ export function ManualEntry() {
     try {
       const hoursToDateTime = (hours: number): string => {
         console.log("Hours from frontned",hours)
-        // const currentDate = new Date();
-        // currentDate.setHours(hours, 0, 0, 0);
-        // const year = currentDate.getFullYear();
-        // const month = String(currentDate.getMonth() + 1).padStart(2, '0'); 
-        // const day = String(currentDate.getDate()).padStart(2, '0');
-        // const hour = String(currentDate.getHours()).padStart(2, '0');
-        // const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-        // const seconds = String(currentDate.getSeconds()).padStart(2, '0');
-        // const formattedDateTime = `${year}-${month}-${day} ${hour}:${minutes}:${seconds}`;
-      
-        // console.log(`Converted DateTime: ${formattedDateTime}`);
-        // return formattedDateTime;  
 
         const currentDate = new Date();
-    
-        // Extract the integer part as hours and the fractional part as minutes
         const wholeHours = Math.floor(hours); // Integer part
         const fractionalHours = hours - wholeHours; // Fractional part
         const minutes = Math.round(fractionalHours * 60); // Convert fraction to minutes
     
-        // Set the current date with the calculated hours and minutes
+    
         currentDate.setHours(wholeHours, minutes, 0, 0);
     
-        // Format the date and time
+
         const year = currentDate.getFullYear();
         const month = String(currentDate.getMonth() + 1).padStart(2, '0');
         const day = String(currentDate.getDate()).padStart(2, '0');
@@ -208,6 +191,7 @@ export function ManualEntry() {
       setTrainingType('');
       setSessionType('');
       setShowNotification(true);
+      setUseTimeRange(true);
 
     } catch (error) {
       console.error('Error saving time entry:', error);
@@ -258,11 +242,7 @@ export function ManualEntry() {
                 required
               />
             </div>
-
-
-
           ) : (
-
             <div className="grid grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Start Time <span className="text-red-500">*</span></label>
@@ -376,8 +356,6 @@ export function ManualEntry() {
       isVisible={showNotification}
       onClose={() => setShowNotification(false)}
     />
-
-  </>
-    
+  </>    
 );
 }

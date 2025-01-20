@@ -1,3 +1,5 @@
+var catalyst = require('zcatalyst-sdk-node');
+
 const crypto = require('crypto');
 const bcrypt = require('bcrypt')
 

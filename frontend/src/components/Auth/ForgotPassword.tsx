@@ -57,7 +57,7 @@ export function ForgotPassword() {
 
       if (response.ok) {
         const data = await response.json();
-      //  alert(data.message || 'OTP validated successfully!');
+        alert(data.message || `OTP validated successfully! ${email}`);
         setNotificationMessage('OTP validated successfully!');
         setShowNotification(true);
         navigate('/PasswordReset', { state: { email } }); 
@@ -67,7 +67,7 @@ export function ForgotPassword() {
       }
     } catch (error) {
       console.error('Error validating OTP:', error);
-      // alert('An error occurred while validating OTP.');
+       alert('An error occurred while validating OTP.');
       setErrorNotificationMessage('Failed to send OTP!');
       setShowErrorNotification(true);
     }

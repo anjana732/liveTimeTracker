@@ -10,6 +10,7 @@ interface PasswordResetProps {
 
 export function PasswordReset({email}: PasswordResetProps) {
 
+
   const [newPassword, setNewPassword] = useState('');
   const [password, setPassword] =useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -30,6 +31,7 @@ export function PasswordReset({email}: PasswordResetProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Email Received", email);
     try {
         const response = await fetch('/server/time_tracker_function/admin/resetPassword', {
           method: 'PUT',
@@ -37,7 +39,7 @@ export function PasswordReset({email}: PasswordResetProps) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ 
-            email,
+            email: email,
             password 
           }),
         });
@@ -53,7 +55,7 @@ export function PasswordReset({email}: PasswordResetProps) {
         console.error('Signup error:', error);
         // setError(error instanceof Error ? error.message : 'Signup failed. Please try again.');
       } finally {
-        // setIsLoading(false);
+        //  setIsLoading(false);
       }
    
   };

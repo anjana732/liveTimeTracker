@@ -1,7 +1,9 @@
+var catalyst = require('zcatalyst-sdk-node');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 
 const sendOtpToEmail = async (email) => {
+    console.log("Inside sendOtpToEmail function");
     const otp = Math.floor(100000 + Math.random() * 900000);
     const expirationTime = Date.now() + 5 * 60 * 1000; 
 
@@ -24,18 +26,20 @@ const sendOtpToEmail = async (email) => {
     try {
        
         await transporter.sendMail(mailOptions);
-        console.log(`OTP sent successfully to ${email}`);
+        console.log(`OTP sent successfully to ${email} from sendOtpToEmail`);
         return { otp, expirationTime };
     } catch (error) {
-        console.error(`Failed to send OTP to ${email}:`, error);
+        console.error(`Failed to send OTP to ${email}: from sendOtpToEmail`, error);
         throw new Error('Failed to send OTP. Please try again later.');
     }
+
 };
 
 
 const otpStore = new Map(); 
 
 async function sendOtp(req, res) {
+    console.log("inside sendOtp");
    
     const {email} = req.body
 
@@ -44,10 +48,11 @@ async function sendOtp(req, res) {
         const { otp, expirationTime } = await sendOtpToEmail(email);
 
         otpStore.set(email, { otp, expirationTime });
-
+        console.log("exisiting sendOtp");
         return { status: 'success', message: 'OTP sent successfully to your email' };
     } catch (err) {
-        console.error('Error sending OTP:', err);
+        console.error('Error sending OTP:Exisiting sentOtp', err);
+
         return { status: 'error', message: 'Failed to send OTP. Please try again.' };
     }
 }
@@ -55,18 +60,18 @@ async function sendOtp(req, res) {
 const verifyOtp = (req, res) => {
     const { email, otp } = req.body;
 
-    console.log('Incoming request:', { email, otp });
+    console.log('Incoming request: inside VerifyOtp', { email, otp });
 
     if (!otpStore.has(email)) {
-        // console.log(`Email not found in otpStore. Available keys: ${Array.from(otpStore.keys()).join(', ')}`);
+        console.log(`Email not found in otpStore. Available keys: ${Array.from(otpStore.keys()).join(', ')}`);
         return res.status(400).json({ status: 'error', message: 'Invalid email' });
     }
 
     const { otp: storedOtp, expirationTime } = otpStore.get(email);
 
-    // console.log(`Received OTP: "${otp}", Stored OTP: "${storedOtp}"`);
-    // console.log(`Received OTP Type: ${typeof otp}, Stored OTP Type: ${typeof storedOtp}`);
-    // console.log(`Expiration Time: ${expirationTime}, Current Time: ${Date.now()}`);
+    console.log(`Received OTP: "${otp}", Stored OTP: "${storedOtp}"`);
+    console.log(`Received OTP Type: ${typeof otp}, Stored OTP Type: ${typeof storedOtp}`);
+    console.log(`Expiration Time: ${expirationTime}, Current Time: ${Date.now()}`);
 
     if (otp.toString().trim() !== storedOtp.toString().trim()) {
         console.log('OTP mismatch detected.');
@@ -85,5 +90,6 @@ const verifyOtp = (req, res) => {
 
 module.exports = {
     sendOtp,
-    verifyOtp
+    verifyOtp,
+    sendOtpToEmail
 }

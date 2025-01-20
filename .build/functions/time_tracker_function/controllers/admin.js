@@ -1,6 +1,6 @@
 var catalyst = require('zcatalyst-sdk-node');
 const {sendErrorResponse} = require('../utils/error');
-const {sendOtp, verifyOtp} = require('../controllers/otpHandle');
+const {sendOtp, verifyOtp, sen} = require('../controllers/otpHandle');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt')
 const {hashPassword} = require('../controllers/encryptPassword')
@@ -8,6 +8,7 @@ const {hashPassword} = require('../controllers/encryptPassword')
 
 
 async function handleForgotPassword(req, res) {
+    console.log("inside handleForgotPassword")
     const email = req.body.email;
 
     if (!email) {
@@ -15,9 +16,9 @@ async function handleForgotPassword(req, res) {
     }
 
     try {
-        const otpSentRes = await sendOtp(req, res);
-
-        console.log("OTP Sent Response:", otpSentRes);
+        var  otpSentRes = await sendOtp(req, res);
+       
+        console.log("OTP Sent Response: from handleForogotPassword", otpSentRes);
 
         if (otpSentRes && otpSentRes.status === 'success') {
             return res.status(200).json(otpSentRes);
@@ -35,17 +36,30 @@ async function handleForgotPassword(req, res) {
 }
 
 
-async function handleVerifyOTP(req, res) {
+// async function handleVerifyOTP(req, res) {
+//     console.log("insilde handleVerifyOTP")
+//     try{
+//         const verificationOTP = await verifyOtp(req,res)
+//         console.log("Email verified",verificationOTP);
+//         // res.send(otpSentRes);
+//     }catch(error){
+//         console.error('Error handling forgot password:', error.message);
+//         // return res.status(500).json({ status: 'error', message: 'An error occurred. Please try again.' });
+//     }
+// }
 
-    try{
-        const verificationOTP = await verifyOtp(req,res)
-        console.log("Email verified",verificationOTP);
-        res.send(otpSentRes);
-    }catch(error){
-        console.error('Error handling forgot password:', error.message);
+async function handleVerifyOTP(req, res) {
+    console.log("inside handleVerifyOTP");
+    try {
+        
+        await verifyOtp(req, res);
+        console.log("OTP verification process completed.");
+    } catch (error) {
+        console.error('Error during OTP verification:', error.message);
         return res.status(500).json({ status: 'error', message: 'An error occurred. Please try again.' });
     }
 }
+
 
 function resetPassword(catalystApp, email, password) {
     console.log(`Recieives Data in resetPassword: email: ${email} , Pass: ${password}`)
