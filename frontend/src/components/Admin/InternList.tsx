@@ -347,12 +347,27 @@ export function InternList() {
             </div>
           ) : (
             <div className="space-y-4 max-h-[calc(100vh-300px)] overflow-y-auto">
-              {filteredDbEntries.map((entry) => (
+                <table className="table-auto w-full border-collapse border border-gray-300 text-sm text-left">
+        <thead className="bg-gray-100 text-gray-700">
+          <tr>
+            <th className="border border-gray-300 px-4 py-2">Employee Name</th>
+            <th className="border border-gray-300 px-4 py-2">Task</th>
+            <th className="border border-gray-300 px-4 py-2">Hours</th>
+            {/* <th className="border border-gray-300 px-4 py-2">Live Session</th> */}
+            <th className="border border-gray-300 px-4 py-2">Date</th>
+            <th className="border border-gray-300 px-4 py-2">View</th>
+          </tr>
+        </thead>
+        <tbody>
+        {filteredDbEntries.map((entry) => (
                 <TimeEntryCard
                   key={entry.ROWID}
                   dbEntry={entry}
                 />
               ))}
+        </tbody>
+        </table>
+             
               <div className="text-sm text-gray-500 text-center pt-4">
                 Showing {filteredDbEntries.length} entries
               </div>

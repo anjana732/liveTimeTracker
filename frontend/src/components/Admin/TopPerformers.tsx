@@ -16,7 +16,7 @@ interface PerformerStats {
 }
 
 export function TopPerformers({ entries }: TopPerformersProps) {
-  // Calculate total hours and weekly average for each intern
+ 
   const performerStats: PerformerStats[] = mockInterns.map(intern => {
     const internEntries = entries.filter(entry => entry.userId === intern.id);
     const totalMinutes = internEntries.reduce((sum, entry) => sum + entry.duration, 0);
