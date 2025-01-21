@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import { FilterDatePopup } from "./FilterDatePopup";
+import * as XLSX from 'xlsx';
 
 export function ExportToSheet() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -38,7 +39,6 @@ export function ExportToSheet() {
         setSelectEmpPopupOpen(false);
     };
 
-    // Toggle the dropdown menu
     const toggleMenu = () => {
         setMenuOpen((prevState) => !prevState);
     };
@@ -50,6 +50,32 @@ export function ExportToSheet() {
         setSelectEmpPopupOpen(false);
     };
 
+    const excelData = async () => {
+        try {
+            const response = await fetch('/server/time_tracker_function/timeEntry');
+            const result = await response.json();
+            console.log('Result:', result);
+
+            if (result && result.data && Array.isArray(result.data)) {
+                const headers = Object.keys(result.data[0].timeEntries);
+                const flattenedData = result.data.map((entry: any) => {
+                    const timeEntries = entry.timeEntries;
+                    return { ...timeEntries };
+                });
+    
+                console.log('Flattened Data:', flattenedData);
+                const ws = XLSX.utils.json_to_sheet(flattenedData, { header: headers });
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                XLSX.writeFile(wb, 'data.xlsx');
+            } else {
+                console.error('Invalid data structure:', result);
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+    
     return (
         <div className="relative inline-block">
             <button
@@ -91,7 +117,6 @@ export function ExportToSheet() {
                     <div className="bg-white p-6 rounded-lg shadow-lg w-80">
                         <h3 className="text-lg font-semibold mb-4">Select Employee</h3>
 
-                        {/* Dropdown for selecting employee */}
                         <div className="mb-4">
                             <label className="block text-gray-700">Employee</label>
                             <select
@@ -135,7 +160,9 @@ export function ExportToSheet() {
                                 Cancel
                             </button>
                             <button
-                                onClick={() => onApplyEmpPopup(fromDate, toDate)}
+                                onClick={() => {onApplyEmpPopup(fromDate, toDate);
+                                    excelData();
+                                } }
                                 className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                             >
                                 Apply
