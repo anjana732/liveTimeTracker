@@ -1,26 +1,53 @@
+
 import React, { useState } from "react";
 import { FilterDatePopup } from "./FilterDatePopup";
 
 export function ExportToSheet() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isSelectEmpPopupOpen, setSelectEmpPopupOpen] = useState(false);
+    const [selectedEmployee, setSelectedEmployee] = useState("");
+    const [fromDate, setFromDate] = useState('');
+    const [toDate, setToDate] = useState('')
+    const [employees] = useState(["Employee 1", "Employee 2", "Employee 3"]);
 
-    const handleOpenPopup = () =>{
+
+    const handleOpenPopup = () => {
         setIsPopupOpen(true);
-    }
+    };
 
-    const handleClosePopup = () =>{
+
+    const handleClosePopup = () => {
         setIsPopupOpen(false);
-    }
+    };
 
-    const handleApplyDate = (fromDate :String, toDate: String) =>{
+
+    const handleApplyDate = (fromDate: string, toDate: string) => {
         console.log("FromDate", fromDate);
         console.log("To Date", toDate);
         setIsPopupOpen(false);
-    }
+    };
 
+
+    const handleOpenSelectEmpPopup = () => {
+        setSelectEmpPopupOpen(true);
+    };
+
+
+    const handleCloseSelectEmpPopup = () => {
+        setSelectEmpPopupOpen(false);
+    };
+
+    // Toggle the dropdown menu
     const toggleMenu = () => {
         setMenuOpen((prevState) => !prevState);
+    };
+    const onCloseEmpPopup = () => {
+        setSelectEmpPopupOpen(false);
+    }
+
+    const onApplyEmpPopup = (fromDate: string, toDate: string) => {
+        setSelectEmpPopupOpen(false);
     };
 
     return (
@@ -39,21 +66,82 @@ export function ExportToSheet() {
                 >
                     <button
                         className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none"
-                        onClick= {handleOpenPopup}
+                        onClick={handleOpenPopup}
                     >
                         All Employee Data
                     </button>
-                    {<FilterDatePopup 
-                            isOpen = {isPopupOpen}
+                    {isPopupOpen && (
+                        <FilterDatePopup
+                            isOpen={isPopupOpen}
                             onClose={handleClosePopup}
                             onApply={handleApplyDate}
-                            />}
+                        />
+                    )}
                     <button
                         className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none"
-                        onClick={() => alert("Exporting Selected Employee Data")}
+                        onClick={handleOpenSelectEmpPopup}
                     >
                         Select Employee
                     </button>
+                </div>
+            )}
+
+            {isSelectEmpPopupOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+                        <h3 className="text-lg font-semibold mb-4">Select Employee</h3>
+
+                        {/* Dropdown for selecting employee */}
+                        <div className="mb-4">
+                            <label className="block text-gray-700">Employee</label>
+                            <select
+                                className="border border-gray-300 rounded-md w-full px-3 py-2 mt-1"
+                                value={selectedEmployee}
+                                onChange={(e) => setSelectedEmployee(e.target.value)}
+                            >
+                                <option value="">Select an employee</option>
+                                {employees.map((employee, index) => (
+                                    <option key={index} value={employee}>
+                                        {employee}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block text-gray-700">From Date</label>
+                            <input
+                                type="date"
+                                value={fromDate}
+                                onChange={(e) => setFromDate(e.target.value)}
+                                className="border border-gray-300 rounded-md w-full px-3 py-2 mt-1"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700">To Date</label>
+                            <input
+                                type="date"
+                                value={toDate}
+                                onChange={(e) => setToDate(e.target.value)}
+                                className="border border-gray-300 rounded-md w-full px-3 py-2 mt-1"
+                            />
+                        </div>
+
+                        <div className="flex justify-end space-x-4">
+                            <button
+                                onClick={onCloseEmpPopup}
+                                className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => onApplyEmpPopup(fromDate, toDate)}
+                                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                            >
+                                Apply
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
