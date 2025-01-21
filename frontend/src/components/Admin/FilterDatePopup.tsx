@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import * as XLSX from 'xlsx';
 
 interface FilterDatePopupProps {
     isOpen: boolean;
@@ -9,6 +10,33 @@ interface FilterDatePopupProps {
 export const FilterDatePopup: React.FC<FilterDatePopupProps> = ({ isOpen, onClose, onApply }) => {
     const [fromDate, setFromDate] = useState<string>("");
     const [toDate, setToDate] = useState<string>("");
+
+        const excelData = async () => {
+            try {
+                const response = await fetch('/server/time_tracker_function/timeEntry');
+                const result = await response.json();
+                console.log('Result:', result);
+    
+                if (result && result.data && Array.isArray(result.data)) {
+                    const headers = Object.keys(result.data[0].timeEntries);
+                    const flattenedData = result.data.map((entry: any) => {
+                        const timeEntries = entry.timeEntries;
+                        return { ...timeEntries };
+                    });
+        
+                    console.log('Flattened Data:', flattenedData);
+                    const ws = XLSX.utils.json_to_sheet(flattenedData, { header: headers });
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                    XLSX.writeFile(wb, 'data.xlsx');
+                } else {
+                    console.error('Invalid data structure:', result);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        
 
     if (!isOpen) return null;
 
@@ -42,7 +70,9 @@ export const FilterDatePopup: React.FC<FilterDatePopupProps> = ({ isOpen, onClos
                         Cancel
                     </button>
                     <button
-                        onClick={() => onApply(fromDate, toDate)}
+                        onClick={() => {onApply(fromDate, toDate)
+                            excelData()
+                        }}
                         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                     >
                         Apply
