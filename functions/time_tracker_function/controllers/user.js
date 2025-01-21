@@ -2,8 +2,6 @@ const catalyst = require('zcatalyst-sdk-node');
 const {sendErrorResponse} = require('../utils/error')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer');
-// const crypto = require('crypto');
-
 
 const ADMIN_EMAIL = 'admin@timetracker.com';
 const ADMIN_PASSWORD = 'admin123';
@@ -124,40 +122,6 @@ const hashPassword = async (password) => {
     }
   };
   
-
-// async function handleUserSignup(req, res) {
-//     const {userName, firstName,lastName , email, password} = req.body;
-//     console.log("data in req.body",req.body);
-
-//     sendOtp(req,res);
-
-//     const hashedPassword = await hashPassword(password);
-//     console.log(hashedPassword);
-
-//     if (!firstName|| !lastName || !email || !password) {
-//         return res.status(400).json({
-//             status: "error",
-//             message: "userName, email, and password are required"
-//         });
-//     }
-
-//     const catalystApp = catalyst.initialize(req);
-//     try {
-//         const result = await addUser(catalystApp, {userName, firstName,lastName, email, password: hashedPassword});
-//         console.log("User signup successful:", result);
-//         res.status(200).json({
-//             status: "success",
-//             message: "User registered successfully",
-//             data: result
-//         });
-//     } catch (err) {
-//         console.error("Signup error:", err);
-//         res.status(500).json({
-//             status: "error",
-//             message: err.message || "Failed to register user"
-//         });
-//     }
-// }
 
 async function handleUserSignup(req, res) {
     const { userName, firstName, lastName, email, password } = req.body;

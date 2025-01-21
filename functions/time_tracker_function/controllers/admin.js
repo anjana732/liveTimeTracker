@@ -5,8 +5,6 @@ const crypto = require('crypto');
 const bcrypt = require('bcrypt')
 const {hashPassword} = require('../controllers/encryptPassword')
 
-
-
 async function handleForgotPassword(req, res) {
     console.log("inside handleForgotPassword")
     const email = req.body.email;
@@ -35,19 +33,6 @@ async function handleForgotPassword(req, res) {
     }
 }
 
-
-// async function handleVerifyOTP(req, res) {
-//     console.log("insilde handleVerifyOTP")
-//     try{
-//         const verificationOTP = await verifyOtp(req,res)
-//         console.log("Email verified",verificationOTP);
-//         // res.send(otpSentRes);
-//     }catch(error){
-//         console.error('Error handling forgot password:', error.message);
-//         // return res.status(500).json({ status: 'error', message: 'An error occurred. Please try again.' });
-//     }
-// }
-
 async function handleVerifyOTP(req, res) {
     console.log("inside handleVerifyOTP");
     try {
@@ -59,7 +44,6 @@ async function handleVerifyOTP(req, res) {
         return res.status(500).json({ status: 'error', message: 'An error occurred. Please try again.' });
     }
 }
-
 
 function resetPassword(catalystApp, email, password) {
     console.log(`Recieives Data in resetPassword: email: ${email} , Pass: ${password}`)
@@ -120,53 +104,6 @@ async function handleResetPassword(req, res){
 }
 
 }
-
-
-// async function handleResetPassword(req, res) {
-//     const { password, email } = req.body;
-
-//     if (!email || !password) {
-//         return res.status(400).json({
-//             status: "error",
-//             message: "Email and password are required"
-//         });
-//     }
-
-//     try {
-//         const hashedPassword = await hashPassword(password);
-//         const catalystApp = catalyst.initialize(req);
-//         const admin = await resetPassword(catalystApp, { email, password: hashedPassword });
-
-//         if (!admin || admin.length === 0) {
-//             throw new Error('Admin not found');
-//         }
-
-//         const adminData = admin[0].Admin;
-
-//         console.log('Reset attempt:', {
-//             providedEmail: email,
-//             userFound: !!admin,
-//             adminData,
-//         });
-
-//         res.status(200).json({
-//             status: "success",
-//             data: {
-//                 ROWID: adminData.ROWID,
-//                 userName: adminData.userName,
-//                 email: adminData.email,
-//                 name: adminData.userName,
-//             }
-//         });
-//     } catch (err) {
-//         console.error("Reset Password error:", err);
-//         res.status(401).json({
-//             status: "error",
-//             message: err.message || "Can't Reset Password"
-//         });
-//     }
-// }
-
 
 function findUserByEmail(catalystApp, email) {
     return new Promise((resolve, reject) => {

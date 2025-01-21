@@ -5,6 +5,7 @@ const timeEntryRoutes = require('./routes/timeEntry');
 const userRoutes = require('./routes/user');
 const adminRoutes = require('./routes/admin');
 const todoRoutes = require('./routes/addTodo');
+const timeEntryWithDate = require('./routes/sheetTimeEntry')
 
 
 const app = express();
@@ -24,6 +25,7 @@ app.use('/user', userRoutes);
 app.use('/timeEntry', timeEntryRoutes);
 app.use('/admin',adminRoutes);
 app.use('/todo', todoRoutes)
+app.use('/sheetTimeEntry', timeEntryWithDate);
 
 
 app.use((err, req, res, next) => {
