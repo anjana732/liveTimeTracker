@@ -6,6 +6,7 @@ import { TimeEntryCard } from './TimeEntryCard';
 import { WeeklyPerformance } from './WeeklyPerformance';
 import { TopPerformers } from './TopPerformers';
 import { mockInterns } from '../../data/mockData';
+import { ExportToSheet } from './ExportToSheet';
 
 interface DBTimeEntry {
   ROWID: string;
@@ -196,9 +197,7 @@ export function InternList() {
             <Users className="w-8 h-8 mr-2 text-primary-600" />
             Employee Time Tracking
           </h1>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none">
-      Export to Sheet
-    </button>
+        <ExportToSheet/>
     </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search Input */}
