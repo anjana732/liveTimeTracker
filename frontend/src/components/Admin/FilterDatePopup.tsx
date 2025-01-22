@@ -13,10 +13,11 @@ export const FilterDatePopup: React.FC<FilterDatePopupProps> = ({ isOpen, onClos
 
         const excelData = async () => {
             try {
-                const response = await fetch('/server/time_tracker_function/timeEntry');
+                const response = await fetch(`/server/time_tracker_function/sheetTimeEntry/EntryWithDate?fromDate=${fromDate}&toDate=${toDate}`);
                 const result = await response.json();
                 console.log('Result:', result);
-    
+                console.log(`Dates receives in excelData function: From Date: ${fromDate} ToDate:${toDate}`)
+                
                 if (result && result.data && Array.isArray(result.data)) {
                     const headers = Object.keys(result.data[0].timeEntries);
                     const flattenedData = result.data.map((entry: any) => {

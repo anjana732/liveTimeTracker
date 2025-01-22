@@ -46,14 +46,16 @@ export function ExportToSheet() {
         setSelectEmpPopupOpen(false);
     }
 
+    
     const onApplyEmpPopup = (fromDate: string, toDate: string) => {
         setSelectEmpPopupOpen(false);
     };
 
     const excelData = async () => {
         try {
-            const response = await fetch('/server/time_tracker_function/timeEntry');
+            const response = await fetch(`/server/time_tracker_function/sheetTimeEntry/EntryWithDate?fromDate=${fromDate}&toDate=${toDate}`);
             const result = await response.json();
+            console.log(`Dates receives in excelData function: From Date: ${fromDate} ToDate:${toDate}`)
             console.log('Result:', result);
 
             if (result && result.data && Array.isArray(result.data)) {
