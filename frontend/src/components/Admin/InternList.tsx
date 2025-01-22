@@ -107,8 +107,6 @@ export function InternList() {
     fetchEmployees();
   }, []);
 
-
-
   const fetchEmployees = async () => {
     try {
       setIsLoading(true);

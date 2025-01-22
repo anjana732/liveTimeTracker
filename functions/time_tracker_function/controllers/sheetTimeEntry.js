@@ -1,9 +1,6 @@
 const catalyst = require('zcatalyst-sdk-node');
 const { sendErrorResponse } = require('../utils/error');
 
-
-
-
 async function handleGetTimeEntryWithDate(req, res) {
     const catalystApp = catalyst.initialize(req); 
     const { fromDate, toDate } = req.query;
@@ -60,11 +57,11 @@ async function getSheetDataByNameAndDate(catalystApp, email, fromDate, toDate){
     return new Promise((resolve, reject) => {
         try {
             const query = `
-           SELECT * 
-FROM TimeEntries 
-WHERE entryDate >= '${fromDate}' 
-  AND entryDate <= '${toDate}' 
-  AND email = '${email}'`;
+            SELECT * 
+            FROM TimeEntries 
+            WHERE entryDate >= '${fromDate}' 
+            AND entryDate <= '${toDate}' 
+            AND email = '${email}'`;
             console.log("Executing time entry with from and to date", query);
             catalystApp.zcql().executeZCQLQuery(query)
                 .then(queryResponse => {
