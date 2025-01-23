@@ -5,6 +5,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
+    "@react-oauth/google": "^0.12.1",
     "@testing-library/user-event": "^12.8.3",
     "@types/node": "^12.20.55",
     "@types/react": "^18.3.18",

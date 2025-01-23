@@ -122,6 +122,15 @@ export function SignUpForm({ onBackToLogin }: SignUpFormProps) {
           </div>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
+{/* 
+          <GoogleLogin
+    clientId="YOUR_CLIENT_ID"
+    buttonText="Login with Google"
+    onSuccess={handleSuccess}
+    onFailure={handleFailure}
+    cookiePolicy={'single_host_origin'}
+  /> */}
+
 
           <button
             type="submit"
