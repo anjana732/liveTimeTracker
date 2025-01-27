@@ -105,6 +105,28 @@ export function ManualEntry() {
     setDateError(validateDate(newDate));
   };
 
+  const calculateHour = (time: string): number => {
+    const [hourStr, minuteStr] = time.split(':').map(Number);
+  
+    // Normalize the minutes: If minutes are greater than 59, convert the excess into hours
+    let minutes = minuteStr;
+    let hours = hourStr;
+  
+    if (minutes >= 60) {
+      const additionalHours = Math.floor(minutes / 60);
+      minutes = minutes % 60;
+      hours += additionalHours;
+    }
+  
+    // Convert the total time into a fractional hour format
+    const totalHours = hours + (minutes / 60);
+  
+    console.log(`Converted time: ${totalHours} hours`);
+  
+    return totalHours;
+  };
+  
+
   const calculateDuration = (start: string, end: string): number => {
     const [startHour, startMinute] = start.split(':').map(Number);
     const [endHour, endMinute] = end.split(':').map(Number);
@@ -148,8 +170,9 @@ export function ManualEntry() {
         console.log(`Converted DateTime: ${formattedDateTime}`);
         return formattedDateTime;
       };
+
       const hoursValue = useTimeRange
-        ? parseFloat(hours)
+        ? calculateHour(hours)
         : calculateDuration(startTime, endTime);
 
       const timeEntryData = {
@@ -200,25 +223,23 @@ export function ManualEntry() {
     }
   };
 
+
   const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let input = e.target.value;
+  
 
-    
-    input = input.replace(/[^0-9:]/g, ""); 
-
+    input = input.replace(/[^0-9:]/g, "");
     if (input.length > 2 && !input.includes(":")) {
       input = input.slice(0, 2) + ":" + input.slice(2);
     }
-
     if (input.length > 5) {
       input = input.slice(0, 5);
     }
-
-    const isValid = /^([0-1][0-9]|2[0-3]):([0-5][0-9])?$/.test(input);
-    if (isValid || input === "") {
-      setHours(input); 
-    }
+    console.log("Total Hours...: ", input);
+    setHours(input);
+    
   };
+  
 
   return (
     <>
@@ -255,13 +276,13 @@ export function ManualEntry() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Hours <span className="text-red-500">*</span></label>
                 <input
                   type="text"
-                  step="0.5"
                   value={hours}
                   // onChange={(e) => setHours(e.target.value)}
-                  onChange={(e) => {
-                    handleHoursChange(e); 
-                    setHours(e.target.value); 
-                  }}
+                  // onChange={(e) => {
+                  //   handleHoursChange(e); 
+                  //    setHours(e.target.value); 
+                  // }}
+                  onChange={handleHoursChange}
                   placeholder='00:00'
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
                   required
@@ -297,7 +318,7 @@ export function ManualEntry() {
             onClick={() => setUseTimeRange(!useTimeRange)}
             className="text-sm text-red-400 hover:text-red-600 mt-2"
           >
-            {useTimeRange ? 'Enter total hours' : 'Set start and end time'}
+            {useTimeRange ? 'Set start and end time' : 'Enter total hours'}
           </button>
           </div>
 
