@@ -58,23 +58,19 @@ export function Timer() {
     if (!user) return;
 
     try {
-      // Convert elapsed time to hours and format as DateTime
       const hoursToDateTime = (seconds: number) => {
         const hours = Math.floor(seconds / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
         const secs = seconds % 60;
 
-        // Create a date object for today
         const date = new Date();
         date.setHours(hours, minutes, secs, 0);
 
-        // Format as "YYYY-MM-DD HH:MM:SS"
         return `${date.toISOString().split('T')[0]} ${date.toTimeString().split(' ')[0]}`;
       };
 
       const currentDate = new Date().toISOString().split('T')[0];
 
-      // Prepare the data for the API
       const timeEntryData = {
         empName: user.userName,
         entryType: timeEntryType || 'Timer',
@@ -89,7 +85,6 @@ export function Timer() {
 
       console.log('Sending time entry data:', timeEntryData);
 
-      // Optimistically add the entry
       addEntry(timeEntryData);
 
       const response = await fetch('/server/time_tracker_function/timeEntry', {
@@ -104,10 +99,8 @@ export function Timer() {
         throw new Error('Failed to save time entry');
       }
 
-      // Refresh entries to get server data
       await fetchEntries(user.email);
       
-      // Reset UI state
       stopTimer(notes);
       setIsModalOpen(false);
       setElapsedTime(0);
