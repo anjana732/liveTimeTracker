@@ -7,6 +7,7 @@ import { WeeklyPerformance } from './WeeklyPerformance';
 import { TopPerformers } from './TopPerformers';
 import { mockInterns } from '../../data/mockData';
 import { ExportToSheet } from './ExportToSheet';
+import { TimeEntriesSummary } from './SummaryView';
 
 interface DBTimeEntry {
   ROWID: string;
@@ -322,6 +323,7 @@ export function InternList() {
         </div>
       )}
 
+      <TimeEntriesSummary/>
       {/* Time Entries List */}
       <div className="bg-white shadow-md rounded-lg">
         <div className="p-6">
