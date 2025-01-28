@@ -4,6 +4,7 @@ import { TimeEntry } from '../../types';
 import { mockInterns } from '../../data/mockData';
 import { format, startOfWeek, endOfWeek, isWithinInterval } from 'date-fns';
 
+
 interface TopPerformersProps {
   entries: TimeEntry[];
 }

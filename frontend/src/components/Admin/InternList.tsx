@@ -150,6 +150,9 @@ export function InternList() {
   };
 
   const convertToTimeEntry = (dbEntry: DBTimeEntry) => ({
+
+    
+
     id: dbEntry.ROWID,
     email: dbEntry.email,
     date: dbEntry.entryDate,
@@ -158,11 +161,13 @@ export function InternList() {
     notes: dbEntry.Notes,
     startTime: undefined,
     endTime: undefined
+
   });
 
   const filteredDbEntries = dbEntries.filter((entry) => {
     const matchesEmail = selectedIntern ? entry.email === selectedIntern : true;
     const matchesDate = selectedDate ? entry.entryDate === selectedDate : true;
+    console.log("Db Entries hours",entry.Hours );
     const matchesSearch = searchTerm
       ? entry.empName.toLowerCase().includes(searchTerm.toLowerCase())
       : true;

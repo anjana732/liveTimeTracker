@@ -8,19 +8,26 @@ interface WeeklyPerformanceProps {
   weekStart: Date;
 }
 
+
 export function WeeklyPerformance({ entries, weekStart }: WeeklyPerformanceProps) {
   const weekEnd = endOfWeek(weekStart);
+  console.log("weekend",weekEnd);
   const daysInWeek = eachDayOfInterval({ start: weekStart, end: weekEnd });
+  console.log("Days in week", daysInWeek);
 
   // Calculate daily hours
+
+console.log("entries...............", entries);
+
   const dailyHours = daysInWeek.map(day => {
     const dayEntries = entries.filter(entry => 
       format(parseISO(entry.date), 'yyyy-MM-dd') === format(day, 'yyyy-MM-dd')
     );
     const totalMinutes = dayEntries.reduce((sum, entry) => sum + entry.duration, 0);
+    console.log(totalMinutes);
     return {
       date: day,
-      hours: totalMinutes / 60,
+      hours: (totalMinutes / 60),
       entries: dayEntries
     };
   });

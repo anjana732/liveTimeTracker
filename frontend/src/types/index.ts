@@ -15,4 +15,5 @@ export interface TimeEntry {
   manualEntry: boolean;
   notes?: string;
   email: string;
+
 }
