@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaCalendarAlt } from "react-icons/fa"; // Calendar icon
-import { CgUserList } from "react-icons/cg"; // Info icon
-import { MdOutlineCategory } from "react-icons/md"; // Category icon
+import { FcCalendar } from "react-icons/fc"; 
+import { CgUserList } from "react-icons/cg"; 
+import { MdOutlineCategory } from "react-icons/md"; 
 
 interface TimeEntry {
+    // Assignment: String,
+    // Hours: String
   date: string;
   meeting: number;
   training: number;
@@ -18,10 +20,25 @@ export const TimeEntriesSummary: React.FC = () => {
   const [toDate, setToDate] = useState<Date | null>(null);
   const [summaryData, setSummaryData] = useState<TimeEntry[]>([]);
 
-  // Mock function to fetch summary data
-  const fetchSummaryData = () => {
+
+  const fetchSummaryData = async () => {
     if (fromDate && toDate) {
-      // Simulate API call
+        try {
+            const fromDateFormatted = fromDate.toISOString().split('T')[0]; 
+            const toDateFormatted = toDate.toISOString().split('T')[0]; 
+            
+            const response = await fetch(`/server/time_tracker_function/sheetTimeEntry/EntryWithDate?fromDate=${fromDateFormatted}&toDate=${toDateFormatted}`);
+            
+            const result = await response.json();
+            console.log('Result:', result);
+            console.log(`Dates receives in excelData function: From Date: ${fromDate} ToDate:${toDate}`)
+            setSummaryData(result);
+            console.log("Summary Data Content",summaryData);
+            
+        } catch (error) {
+            console.log("Error ftching data",error)
+        }
+   
       const mockData: TimeEntry[] = [
         {
           date: "2025-01-20",
@@ -38,11 +55,11 @@ export const TimeEntriesSummary: React.FC = () => {
           total: 5,
         },
       ];
-      setSummaryData(mockData); // Replace with actual API response
+    // setSummaryData(result);
     }
   };
 
-  // Fetch data when dates change
+  
   useEffect(() => {
     fetchSummaryData();
   }, [fromDate, toDate]);
@@ -70,7 +87,7 @@ export const TimeEntriesSummary: React.FC = () => {
               className="border px-4 py-2 rounded-lg w-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholderText="Select from date"
             />
-            <FaCalendarAlt className="absolute top-1/2 transform -translate-y-1/2 right-4 text-gray-500 pointer-events-none" />
+            <FcCalendar className="absolute top-1/2 transform -translate-y-1/2 right-4 text-gray-500 pointer-events-none" />
           </div>
         </div>
         {/* To Date Picker */}
@@ -86,7 +103,7 @@ export const TimeEntriesSummary: React.FC = () => {
               className="border px-4 py-2 rounded-lg w-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholderText="Select to date"
             />
-            <FaCalendarAlt className="absolute top-1/2 transform -translate-y-1/2 right-4 text-gray-500 pointer-events-none" />
+            <FcCalendar className="absolute top-1/2 transform -translate-y-1/2 right-4 text-gray-500 pointer-events-none" />
           </div>
         </div>
       </div>

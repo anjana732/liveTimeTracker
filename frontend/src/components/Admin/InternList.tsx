@@ -375,7 +375,8 @@ export function InternList() {
               ))}
         </tbody>
         </table>
-             
+
+        
               <div className="text-sm text-gray-500 text-center pt-4">
                 Showing {filteredDbEntries.length} entries
               </div>
